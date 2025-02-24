@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
         set{this.lockVeritcalMove = value;}
     }
     void Awake(){
+        navConstraint = GetComponent<NavMeshConstraint>();
         controller = GetComponent<CharacterController>();
         playerControlls = new InputControlls();
 
@@ -95,11 +96,11 @@ public class PlayerController : MonoBehaviour
 
         Vector3 _move = new Vector3(moveDirection.x, 0, moveDirection.y);
         controller.Move(_move * speed * Time.deltaTime);
+        Vector3 desiredPosition = transform.position + _move * speed * Time.deltaTime;
 
-        DontWalkOff();
-
-    }
-    private void DontWalkOff(){
+       if(navConstraint != null && navConstraint.IsValidDestination(desiredPosition)){
+            controller.Move(_move * speed * Time.deltaTime);
+        }
 
     }
     private void StartJumping(){
