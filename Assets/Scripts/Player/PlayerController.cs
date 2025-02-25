@@ -68,6 +68,7 @@ public class PlayerController : MonoBehaviour
         set{this.lockVeritcalMove = value;}
     }
     void Awake(){
+        //navConstraint = GameEventManager.instance.NavMeshConstraint;
         navConstraint = GetComponent<NavMeshConstraint>();
         controller = GetComponent<CharacterController>();
         playerControlls = new InputControlls();
@@ -108,19 +109,19 @@ public class PlayerController : MonoBehaviour
             BasicMovement();
         } 
         ApplyGravity();
-        GroundCheck();
-        //Debug.Log(isOnGround);
+        //Debug.Log(navConstraint);
     }
+    
     // handles moveing along the plain wont allow the player to move off the plains nav mesh
     private void BasicMovement(){
         moveDirection = move.ReadValue<Vector2>();    
 
-        Vector3 _move = new Vector3(moveDirection.x, 0, moveDirection.y);
+        Vector3 _move = new Vector3(moveDirection.x, 0, moveDirection.y); 
         controller.Move(_move * speed * Time.deltaTime);
         Vector3 desiredPosition = transform.position + _move * speed * Time.deltaTime;
 
-       if(navConstraint != null && navConstraint.IsValidDestination(desiredPosition)){
-            controller.Move(_move * speed * Time.deltaTime);
+       if (navConstraint != null && navConstraint.IsValidDestination(desiredPosition)){
+        controller.Move(_move * speed * Time.deltaTime);
         }
     }
     private void StartJumping(){
@@ -165,14 +166,14 @@ public class PlayerController : MonoBehaviour
         }
     }
     // uses a raycast pointed down to check if the player is on the ground
-    private void GroundCheck(){ // checks to see if the player is on the ground with a raycast
-         RaycastHit hit; 
-         if (Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDistance, groundLayer)){
-             isOnGround = true;
-         }else{
-             isOnGround = false;
-         }
-    }  
+    // private void GroundCheck(){ // checks to see if the player is on the ground with a raycast
+    //      RaycastHit hit; 
+    //      if (Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDistance, groundLayer)){
+    //          isOnGround = true;
+    //      }else{
+    //          isOnGround = false;
+    //      }
+    // }  
     // applies a constant downward force on the player
     private void ApplyGravity(){ // gravity is constanly applied to the player
         if (controller.isGrounded){
