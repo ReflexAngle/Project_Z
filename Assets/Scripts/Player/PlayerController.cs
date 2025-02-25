@@ -12,12 +12,21 @@ public class PlayerController : MonoBehaviour
     private bool canAttack = true;
     private bool canBlock = true;
     private bool canJump = true;
-    private bool isGrounded = true;
+    private bool isJumping = false;
+    private bool isOnTheMove;
+    private bool isOnGround;
     [SerializeField] private int lockVeritcalMove;
     [SerializeField] private float speed = 5f;
     private float gravity = 9.81f;
+    [SerializeField] private float downwardForce = -20f;
+    [SerializeField] private float jumpForce = 10f;
+    private float jumpCutMultiplier = .5f;
+    private int jumpBufferCount;
+    private float groundCheckDistance = .6f; 
     private Vector2 moveDirection = Vector2.zero;
     [SerializeField] private Vector2 floorSize;
+    private Vector3 velocity;
+    [SerializeField] private LayerMask groundLayer;
     private SpriteRenderer spriteRenderer;
     private CharacterController controller;
     public InputControlls playerControlls;
@@ -42,9 +51,17 @@ public class PlayerController : MonoBehaviour
         get{return canJump;}
         set{this.canJump = value;}
     }
-    public bool IsGrounded{ // handle the jump animations in here
-        get{return isGrounded;}
-        set{this.isGrounded = value;}
+    public bool IsJumping{
+        get{return isJumping;}
+        set{this.isJumping = value;}
+    }
+    public bool IsOnGround{ // handle the jump animations in here
+        get{return isOnGround;}
+        set{this.isOnGround = value;}
+    }
+    public bool IsOnTheMove{
+        get{return isOnTheMove;}
+        set{this.isOnTheMove = value;}
     }
     public int LockVeritcalMove{
         get{return lockVeritcalMove;}
@@ -56,7 +73,7 @@ public class PlayerController : MonoBehaviour
         playerControlls = new InputControlls();
 
         playerControlls.Movement.Jump.started += ctx => StartJumping();
-        playerControlls.Movement.Jump.canceled += ctx => StartJumping();
+        playerControlls.Movement.Jump.canceled += ctx => EndJump();
 
         playerControlls.Movement.Attack.performed += ctx => Attacking();
 
@@ -90,7 +107,11 @@ public class PlayerController : MonoBehaviour
         if(CanMove){
             BasicMovement();
         } 
+        ApplyGravity();
+        GroundCheck();
+        //Debug.Log(isOnGround);
     }
+    // handles moveing along the plain wont allow the player to move off the plains nav mesh
     private void BasicMovement(){
         moveDirection = move.ReadValue<Vector2>();    
 
@@ -101,22 +122,41 @@ public class PlayerController : MonoBehaviour
        if(navConstraint != null && navConstraint.IsValidDestination(desiredPosition)){
             controller.Move(_move * speed * Time.deltaTime);
         }
-
     }
     private void StartJumping(){
-        if(CanJump && CanJump){
-
+        if(CanJump && controller.isGrounded){
+            velocity.y = jumpForce;
+            isJumping = true;
+            jumpBufferCount = 0;
         }
+        Debug.Log("jump");
 
     }
     private void EndJump(){
+        if (isJumping && velocity.y > 0){ // Only reduce height if still moving up
+            velocity.y *= jumpCutMultiplier;
+        }
+        isJumping = false;
 
     }
+    // ques up the next jump to make it feel more fluid
+    private void JumpBuffer(){
+
+    }
+    // use a ray cast with a distance of 5 away from the player
+    // if the raycast hits an object with an enemy tag then it deals damage to them else it just misses
     private void Attacking(){
+        RaycastHit weaponDistance;
+        if(CanAttack && CanMove && CanBlock){
+            if(Physics.Raycast(transform.position, Vector3.right, out weaponDistance)){
+                Debug.Log("Enemy Hit");
+            }else{
+                Debug.Log("miss");
+            }
+        }
         if(CanAttack && CanMove && CanBlock){
             Debug.Log("hit");
         }
-
     }
     private void Blocking(){
         // We need to be able to block move and we cannot be currently attacking
@@ -124,7 +164,25 @@ public class PlayerController : MonoBehaviour
             Debug.Log("deflect");
         }
     }
-    private void GroundCheck(){
-
-    }
+    // uses a raycast pointed down to check if the player is on the ground
+    private void GroundCheck(){ // checks to see if the player is on the ground with a raycast
+         RaycastHit hit; 
+         if (Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDistance, groundLayer)){
+             isOnGround = true;
+         }else{
+             isOnGround = false;
+         }
+    }  
+    // applies a constant downward force on the player
+    private void ApplyGravity(){ // gravity is constanly applied to the player
+        if (controller.isGrounded){
+            velocity.y = -2f;
+            IsJumping = false;
+            
+        }else{
+            velocity.y -= gravity * Time.deltaTime;
+            velocity.y = Mathf.Max(velocity.y, downwardForce); // clamps the fall speed
+        }
+        controller.Move(velocity * Time.deltaTime);   
+    } 
 }
