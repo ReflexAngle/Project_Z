@@ -420,6 +420,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 407776913}
+<<<<<<< Updated upstream
   parallaxEffect: 0.8
 --- !u!1 &315387009
 GameObject:
@@ -576,6 +577,9 @@ MonoBehaviour:
   moveSpeed: 1
   enemyTag: Enemy
   currentState: {fileID: 0}
+=======
+  parallaxEffect: 0.3
+>>>>>>> Stashed changes
 --- !u!1 &407776913
 GameObject:
   m_ObjectHideFlags: 0
@@ -852,6 +856,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 407776913}
+<<<<<<< Updated upstream
   parallaxEffect: 0.5
 --- !u!1 &488476957
 GameObject:
@@ -905,6 +910,9 @@ Transform:
   - {fileID: 315387010}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+=======
+  parallaxEffect: 0.6
+>>>>>>> Stashed changes
 --- !u!1 &560769734
 GameObject:
   m_ObjectHideFlags: 0
@@ -932,11 +940,11 @@ Transform:
   m_GameObject: {fileID: 560769734}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 36, y: 0, z: 0}
+  m_LocalPosition: {x: 38.316204, y: -10.443879, z: 6.325139}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1251614483}
+  m_Father: {fileID: 1816861468}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &560769736
 MonoBehaviour:
@@ -1553,9 +1561,7 @@ Transform:
   m_LocalPosition: {x: 2.3162026, y: -10.443879, z: 6.325139}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2048771262}
-  - {fileID: 560769735}
+  m_Children: []
   m_Father: {fileID: 1816861468}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1251614484
@@ -1779,6 +1785,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 560769735}
+  - {fileID: 2048771262}
   - {fileID: 1251614483}
   - {fileID: 2141270476}
   - {fileID: 483374556}
@@ -1950,11 +1958,11 @@ Transform:
   m_GameObject: {fileID: 2048771261}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -36, y: 0, z: 0}
+  m_LocalPosition: {x: -33.683796, y: -10.443879, z: 6.325139}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1251614483}
+  m_Father: {fileID: 1816861468}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2048771263
 MonoBehaviour:
@@ -2194,7 +2202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 407776913}
-  parallaxEffect: 0.2
+  parallaxEffect: 0.8
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
