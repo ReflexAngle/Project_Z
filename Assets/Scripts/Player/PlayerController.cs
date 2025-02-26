@@ -15,18 +15,22 @@ public class PlayerController : MonoBehaviour
     private bool isJumping = false;
     private bool isOnTheMove;
     private bool isOnGround;
+
     [SerializeField] private int lockVeritcalMove;
     [SerializeField] private float speed = 5f;
+
     private float gravity = 9.81f;
     [SerializeField] private float downwardForce = -20f;
     [SerializeField] private float jumpForce = 10f;
     private float jumpCutMultiplier = .5f;
     private int jumpBufferCount;
     private float groundCheckDistance = .6f; 
+
     private Vector2 moveDirection = Vector2.zero;
     [SerializeField] private Vector2 floorSize;
     private Vector3 velocity;
     [SerializeField] private LayerMask groundLayer;
+
     private SpriteRenderer spriteRenderer;
     private CharacterController controller;
     public InputControlls playerControlls;
