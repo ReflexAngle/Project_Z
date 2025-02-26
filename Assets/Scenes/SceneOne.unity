@@ -271,6 +271,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7023388376972997825, guid: 3d84fa90d81826648839d6867ac8f864, type: 3}
+      propertyPath: navConstraint
+      value: 
+      objectReference: {fileID: 1626237425}
+    - target: {fileID: 7023388376972997825, guid: 3d84fa90d81826648839d6867ac8f864, type: 3}
       propertyPath: groundLayer.m_Bits
       value: 4294967295
       objectReference: {fileID: 0}
@@ -427,6 +431,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1626237424}
   - component: {fileID: 1626237425}
+  - component: {fileID: 1626237426}
   m_Layer: 0
   m_Name: EventManager
   m_TagString: Untagged
@@ -463,6 +468,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sampleRadius: 1
   allowedDistance: 0.5
+--- !u!114 &1626237426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626237423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60652c8fc6aa9ca48bf71a1dda78c08f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
