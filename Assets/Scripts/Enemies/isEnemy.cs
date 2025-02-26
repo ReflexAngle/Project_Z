@@ -16,6 +16,8 @@ public abstract class isEnemy : MonoBehaviour
 
     public float moveSpeed;
 
+    public string enemyTag = "Enemy";
+
     public StateMachineBehaviour currentState;
 
     public void Attack(PlayerStats target)
@@ -44,6 +46,7 @@ public abstract class isEnemy : MonoBehaviour
 
     protected virtual void Start()
     {
+        gameObject.tag = enemyTag;
         currentHealth = maxHealth;
     }
 }
