@@ -13,9 +13,9 @@ public class BGSCript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void LateUpdate()
     {
         float distance = cam.transform.position.x * parallaxEffect; // 0 = move with camera || 1 = wont move with camera || 0.5 = halfspeed
-        transform.position = new Vector3(startPos + distance, transform.position.y, transform.position.z);
+        transform.position = new Vector3(startPos + distance, transform.position.y, transform.position.z);  
     }
 }
