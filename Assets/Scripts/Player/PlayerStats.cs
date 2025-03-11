@@ -7,17 +7,17 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
     [SerializeField]
-    public float maxHealth;
+    public float maxHealth = 100;
     public float currentHealth;
-    public float healthRegen;
+    public float healthRegen = 1;
 
-    public float maxStamina;
+    public float maxStamina = 100;
     public float currentStamina;
-    public float staminaRegen;
+    public float staminaRegen = 1;
 
-    public float maxMagic;
+    public float maxMagic = 100;
     public float currentMagic;
-    public float magicRegen;
+    public float magicRegen = 1;
 
     public void Start()
     {
@@ -44,6 +44,7 @@ public class PlayerStats : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
+        Debug.Log("Player took " + damage + " damage!");
         if (currentHealth <= 0)
         {
             Die();
