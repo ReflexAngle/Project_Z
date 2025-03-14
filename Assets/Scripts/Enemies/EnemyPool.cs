@@ -36,7 +36,7 @@ public class EnemyPool : MonoBehaviour
 
             for (int i = 0; i < poolSize; i++)
             {
-                GameObject enemy = Instantiate(enemyType.prefab);
+                GameObject enemy = Instantiate(enemyType.prefab,this.transform);
                 enemy.SetActive(false);
                 enemies.Enqueue(enemy);
             }
@@ -47,6 +47,7 @@ public class EnemyPool : MonoBehaviour
 
     public GameObject GetEnemy(string type, Vector3 spawnPosition)
     {
+        Debug.LogError("Try Getenemy" + type);
         //If there is no pool for the enemy type
         if (!enemyPools.ContainsKey(type))
         {
@@ -61,7 +62,7 @@ public class EnemyPool : MonoBehaviour
             {
                 if (enemyType.name == type)
                 {
-                    GameObject extraEnemy = Instantiate(enemyType.prefab);
+                    GameObject extraEnemy = Instantiate(enemyType.prefab, this.transform);
                     extraEnemy.SetActive(false);
                     enemyPools[type].Enqueue(extraEnemy);
                     break;
