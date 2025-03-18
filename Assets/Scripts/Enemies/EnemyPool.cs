@@ -47,7 +47,7 @@ public class EnemyPool : MonoBehaviour
 
     public GameObject GetEnemy(string type, Vector3 spawnPosition)
     {
-        Debug.LogError("Try Getenemy" + type);
+        Debug.Log("Try Getenemy" + type);
         //If there is no pool for the enemy type
         if (!enemyPools.ContainsKey(type))
         {

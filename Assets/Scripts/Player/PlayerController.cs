@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private bool isJumping = false;
     private bool isOnTheMove;
     private bool isOnGround;
+    private bool isLookingRight;
 
     [SerializeField] private int lockVeritcalMove;
     [SerializeField] private float speed = 5f;
@@ -31,7 +32,6 @@ public class PlayerController : MonoBehaviour
     private Vector3 velocity;
     [SerializeField] private LayerMask groundLayer;
 
-    private SpriteRenderer spriteRenderer;
     private CharacterController controller;
     public InputControlls playerControlls;
     private InputAction move;
@@ -127,6 +127,7 @@ public class PlayerController : MonoBehaviour
        if (navConstraint != null && navConstraint.IsValidDestination(desiredPosition)){
         controller.Move(_move * speed * Time.deltaTime);
         }
+
     }
     private void StartJumping(){
         if(CanJump && controller.isGrounded){
