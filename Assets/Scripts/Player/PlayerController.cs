@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,6 +32,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector2 floorSize;
     private Vector3 velocity;
     [SerializeField] private LayerMask groundLayer;
+
+    [SerializeField] public Weapon currentWeapon;
+    [SerializeField] public GameObject weaponHolder;
+    [SerializeField] public WeaponFactory weaponFactory = new WeaponFactory();
 
     private CharacterController controller;
     public InputControlls playerControlls;
@@ -152,17 +157,36 @@ public class PlayerController : MonoBehaviour
     // use a ray cast with a distance of 5 away from the player
     // if the raycast hits an object with an enemy tag then it deals damage to them else it just misses
     private void Attacking(){
-        RaycastHit weaponDistance;
-        if(CanAttack && CanMove && CanBlock){
-            if(Physics.Raycast(transform.position, Vector3.right, out weaponDistance)){
-                Debug.Log("Enemy Hit");
-            }else{
-                Debug.Log("miss");
-            }
+
+        if (CanAttack && CanMove && CanBlock)
+        {
+            //currentWeapon.Attack();
+            RotateObject(weaponHolder);
+
+
         }
-        if(CanAttack && CanMove && CanBlock){
-            Debug.Log("hit");
+
+        else
+        {
+            Debug.Log("Cant attack yet");
         }
+    }
+
+    public void RotateObject(GameObject subject)
+    {
+        canAttack = false;
+        Vector3 originalRotation = subject.transform.eulerAngles;
+
+        // Rotate the object 90 degrees on the Y-axis over 1 second
+        subject.transform.DORotate(new Vector3(0, 0, 90), .3f)
+            .OnComplete(() => RevertRotation(subject, originalRotation));  // After rotation, revert back
+    }
+
+    private void RevertRotation(GameObject subject, Vector3 originalRotation)
+    {
+        // Revert the object back to its original rotation over 1 second
+        subject.transform.DORotate(originalRotation, 1f).OnComplete(() => canAttack = true);
+        
     }
     private void Blocking(){
         // We need to be able to block move and we cannot be currently attacking

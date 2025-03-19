@@ -10,12 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 77cd6b6fa690241469205cc9a91d42d1, type: 3}
-  m_Name: TestWAve
+  m_Name: Wave1
   m_EditorClassIdentifier: 
-  waveName: Test
+  waveName: 1
   enemies:
   - enemyType: Melee
-    count: 5
-  - enemyType: Ranged
-    count: 5
-  spawnpoint: {x: 10, y: 0, z: 0}
+    count: 3
+  spawnStrategyIndex: 1
+  spawnpoint: {x: 5, y: 0, z: 0}

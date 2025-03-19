@@ -11,6 +11,13 @@ public class EnemySpawner : MonoBehaviour
     public List<WaveData> waves;
     public int currentWaveEnemyIndex = 0;
 
+    [SerializeField]
+    public List<ISpawnStrategy> spawnStrategies = new List<ISpawnStrategy>
+    {
+        new InstantSpawnStrategy(),
+        new RandomSpawnStrategy()
+    };
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,7 +60,7 @@ public class EnemySpawner : MonoBehaviour
         Debug.Log("Starting wave " + waveIndex);
 
         WaveData wave = waves[waveIndex];
-        wave.spawnStrategy.SpawnWave(wave, enemyPool);
+        spawnStrategies[wave.spawnStrategyIndex].SpawnWave(wave, enemyPool);
         waveIndex++;
     }
 }
