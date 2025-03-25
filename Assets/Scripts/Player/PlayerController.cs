@@ -16,7 +16,8 @@ public class PlayerController : MonoBehaviour
     private bool isJumping = false;
     private bool isOnTheMove;
     private bool isOnGround;
-    private bool isLookingRight;
+    [SerializeField]
+    public bool isLookingRight;
 
     [SerializeField] private int lockVeritcalMove;
     [SerializeField] private float speed = 5f;
@@ -36,6 +37,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public Weapon currentWeapon;
     [SerializeField] public GameObject weaponHolder;
     [SerializeField] public WeaponFactory weaponFactory = new WeaponFactory();
+
+    [SerializeField] public GameObject Sprite;
 
     private CharacterController controller;
     public InputControlls playerControlls;
@@ -114,13 +117,13 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(CanMove){
+        if (CanMove)
+        {
             BasicMovement();
-        } 
+        }
         ApplyGravity();
-        //Debug.Log(navConstraint);
     }
-    
+
     // handles moveing along the plain wont allow the player to move off the plains nav mesh
     private void BasicMovement(){
         moveDirection = move.ReadValue<Vector2>();    
@@ -128,8 +131,21 @@ public class PlayerController : MonoBehaviour
         Vector3 _move = new Vector3(moveDirection.x, 0, moveDirection.y); 
         controller.Move(_move * speed * Time.deltaTime);
         Vector3 desiredPosition = transform.position + _move * speed * Time.deltaTime;
+        if (_move.x > 0)
+        {
+            isLookingRight = true;
+            Sprite.transform.rotation = Quaternion.Euler(0, 180, 0);
+            //weaponHolder.transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        else if (_move.x < 0)
+        {
+            isLookingRight = false;
+            Sprite.transform.rotation = Quaternion.Euler(0, 0, 0);
+            //weaponHolder.transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
 
-       if (navConstraint != null && navConstraint.IsValidDestination(desiredPosition)){
+
+        if (navConstraint != null && navConstraint.IsValidDestination(desiredPosition)){
         controller.Move(_move * speed * Time.deltaTime);
         }
 
@@ -160,10 +176,24 @@ public class PlayerController : MonoBehaviour
 
         if (CanAttack && CanMove && CanBlock)
         {
+            canAttack = false;
+
             //currentWeapon.Attack();
-            RotateObject(weaponHolder);
 
+            float degrees;
 
+            if (isLookingRight)
+            {
+                degrees = 90f;
+
+            }
+            else
+            {
+                degrees = -90f;
+            }
+            RotateObject(weaponHolder, degrees);
+
+            canAttack = true;
         }
 
         else
@@ -172,14 +202,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void RotateObject(GameObject subject)
+    public void RotateObject(GameObject subject, float degrees)
     {
-        canAttack = false;
         Vector3 originalRotation = subject.transform.eulerAngles;
 
-        // Rotate the object 90 degrees on the Y-axis over 1 second
-        subject.transform.DORotate(new Vector3(0, 0, 90), .3f)
-            .OnComplete(() => RevertRotation(subject, originalRotation));  // After rotation, revert back
+            subject.transform.DORotate(new Vector3(0, 0, degrees), .3f)
+                .OnComplete(() => RevertRotation(subject, originalRotation));  // After rotation, revert back
+        
+
     }
 
     private void RevertRotation(GameObject subject, Vector3 originalRotation)
