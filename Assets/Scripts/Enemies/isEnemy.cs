@@ -30,20 +30,26 @@ public abstract class isEnemy : MonoBehaviour
 
     private void Awake()
     {
-        player = GameObject.Find("Player").transform;
         this.AddComponent<NavMeshAgent>();
         agent = GetComponent<NavMeshAgent>();
+        player = GameObject.Find("Player").transform;
     }
 
     protected virtual void Start()
     {
         currentHealth = maxHealth;
         agent.speed = moveSpeed;
+
     }
 
     private void Update()
     {
-        if (canMove == true)
+
+        if (player == null)
+        {
+            player = GameObject.Find("Player").transform;
+        }
+        else if (canMove == true)
         {
             Debug.Log("Moving to player");
 
@@ -51,6 +57,7 @@ public abstract class isEnemy : MonoBehaviour
             agent.SetDestination(player.position);
 
         }
+
     }
 
     public void Attack(PlayerStats target)
