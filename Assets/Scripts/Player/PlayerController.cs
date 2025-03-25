@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private bool isOnGround;
     [SerializeField]
     public bool isLookingRight;
+    public bool swordUp;
 
     [SerializeField] private int lockVeritcalMove;
     [SerializeField] private float speed = 5f;
@@ -179,20 +180,28 @@ public class PlayerController : MonoBehaviour
             canAttack = false;
 
             //currentWeapon.Attack();
-
+            /*
             float degrees;
 
             if (isLookingRight)
             {
-                degrees = 90f;
+                degrees = 80f;
 
             }
             else
             {
-                degrees = -90f;
+                degrees = -80f;
             }
-            RotateObject(weaponHolder, degrees);
-
+            */
+            if (swordUp)
+            {
+                RotateObject(weaponHolder, 70f);
+            }
+            else
+            {
+                RotateObject(weaponHolder, -70f);
+            }
+            swordUp =! swordUp;
             canAttack = true;
         }
 
@@ -206,9 +215,12 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 originalRotation = subject.transform.eulerAngles;
 
-            subject.transform.DORotate(new Vector3(0, 0, degrees), .3f)
-                .OnComplete(() => RevertRotation(subject, originalRotation));  // After rotation, revert back
-        
+        subject.transform.Rotate(new Vector3(0, 0, degrees));  // Rotate the object 90 degrees in .3 seconds
+        //subject.transform.Rotate(new Vector3(0, 0, -degrees), .3f);  // Rotate the object 90 degrees in .3 seconds
+
+            //subject.transform.DORotate(new Vector3(0, 0, degrees), .3f)
+            //.OnComplete(() => RevertRotation(subject, originalRotation));  // After rotation, revert back
+
 
     }
 

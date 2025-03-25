@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3268602497261816530}
   m_Layer: 0
   m_Name: RangedEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -72,8 +72,8 @@ MonoBehaviour:
   agent: {fileID: 7447816015802455024}
   player: {fileID: 0}
   canMove: 1
-  maxHealth: 100
-  currentHealth: 0
+  maxHealth: 10
+  currentHealth: 10
   attackDamage: 40
   attackSpeed: 0
   moveSpeed: 2
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 8784864697330321201}
   m_Layer: 0
   m_Name: Capsule
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

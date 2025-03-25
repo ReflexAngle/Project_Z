@@ -49,9 +49,12 @@ public abstract class isEnemy : MonoBehaviour
         {
             player = GameObject.Find("Player").transform;
         }
+        if (tag == null)
+        {
+            tag = enemyTag;
+        }
         else if (canMove == true)
         {
-            Debug.Log("Moving to player");
 
             player.transform.position = new Vector3(player.position.x, player.position.y, player.position.z);
             agent.SetDestination(player.position);
@@ -72,8 +75,9 @@ public abstract class isEnemy : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        Debug.Log("Enemy took " + damage + " damage!");
         currentHealth -= damage;
-        if (currentHealth <= 0)
+        //if (currentHealth <= 0)
         {
             Die();
         }
@@ -81,6 +85,7 @@ public abstract class isEnemy : MonoBehaviour
 
     public void Die()
     {
+        GetComponent<EnemyPool>().ReturnEnemy(gameObject);
         Destroy(gameObject);
     }
 

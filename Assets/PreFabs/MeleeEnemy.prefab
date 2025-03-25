@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2247751872644533871}
   m_Layer: 0
   m_Name: MeleeEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -72,8 +72,8 @@ MonoBehaviour:
   agent: {fileID: 1969835137208169849}
   player: {fileID: 0}
   canMove: 1
-  maxHealth: 100
-  currentHealth: 100
+  maxHealth: 30
+  currentHealth: 30
   attackDamage: 10
   attackSpeed: 1
   moveSpeed: 3
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 6360830322983848998}
   m_Layer: 0
   m_Name: Capsule
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

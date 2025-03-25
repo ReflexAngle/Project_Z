@@ -19,4 +19,4 @@ MonoBehaviour:
   - enemyType: Ranged
     count: 5
   spawnStrategyIndex: 1
-  spawnpoint: {x: 10, y: -3, z: 0}
+  spawnpoint: {x: -10, y: -3, z: 0}
