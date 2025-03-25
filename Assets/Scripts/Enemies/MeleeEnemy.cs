@@ -32,11 +32,5 @@ public class TestEnemy : isEnemy
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-
-    }
 
 }
