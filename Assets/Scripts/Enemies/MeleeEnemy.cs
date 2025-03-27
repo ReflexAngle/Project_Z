@@ -7,10 +7,7 @@ public class TestEnemy : isEnemy
 {
 
     // Start is called before the first frame update
-    protected override void Start()
-    {
-        base.Start();
-    }
+
 
     private void OnTriggerEnter(Collider other)
     {

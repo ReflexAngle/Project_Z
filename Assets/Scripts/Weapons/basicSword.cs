@@ -20,14 +20,25 @@ public class BasicSword : Weapon
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Hit something");
 
-        if (other.gameObject.TryGetComponent<isEnemy>(out isEnemy myenemy))
+        if (other.gameObject.tag == "Enemy")
         {
-            Debug.Log("Hit enemy");
+            isEnemy myenemy = other.gameObject.GetComponent<isEnemy>();
+            Debug.Log("Hit enemy " + myenemy.name);
+
             myenemy.TakeDamage(damage);
 
-            myenemy.Die();
+            Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                Vector3 collisionDirection = (other.transform.position - transform.position).normalized;
+                rb.AddForce(collisionDirection * 1000, ForceMode.Impulse);
+            }
+            else
+            {
+                Debug.Log("No rigidbody found on enemy");
+            }
+
         }
     }
 

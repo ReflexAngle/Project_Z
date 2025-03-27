@@ -75,18 +75,24 @@ public abstract class isEnemy : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        Debug.Log("Enemy took " + damage + " damage!");
         currentHealth -= damage;
-        //if (currentHealth <= 0)
+        Debug.Log("Enemy took " + damage + " damage! It has " + currentHealth + " / " + maxHealth);
+
+        if (currentHealth <= 0)
         {
+            Debug.Log("enemy dies");
             Die();
+        }
+        else
+        {
+            Debug.Log("enemy survives");
         }
     }
 
     public void Die()
     {
-        GetComponent<EnemyPool>().ReturnEnemy(gameObject);
-        Destroy(gameObject);
+        GetComponentInParent<EnemyPool>().ReturnEnemy(gameObject);
+        Debug.Log("Enemy died!");
     }
 
 
