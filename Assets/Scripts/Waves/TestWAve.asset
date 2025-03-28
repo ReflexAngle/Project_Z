@@ -15,8 +15,8 @@ MonoBehaviour:
   waveName: Test
   enemies:
   - enemyType: Melee
-    count: 2
+    count: 10
   - enemyType: Ranged
-    count: 2
+    count: 5
   spawnStrategyIndex: 1
   spawnpoint: {x: -10, y: -3, z: 0}

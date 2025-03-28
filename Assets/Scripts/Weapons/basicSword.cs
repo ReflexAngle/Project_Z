@@ -1,46 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BasicSword : Weapon
 {
     [SerializeField]
     public GameObject prefab;
+
+    [SerializeField]
+    public override string WeaponName => "Basic Sword";
+    [SerializeField]
+    public override float Damage => 30;
+    [SerializeField]
+    public override float Knockback => 1000;
+    [SerializeField]
+    public override float AttackSpeed => 1;
+
     public override void Attack()
     {
-
+        // Implement attack logic here
     }
 
-    public BasicSword()
-    {
-        weaponName = "basicSword";
-        damage = 20;
-        attackSpeed = 1.0f;
-    }
 
-    private void OnTriggerEnter(Collider other)
-    {
-
-        if (other.gameObject.tag == "Enemy")
-        {
-            isEnemy myenemy = other.gameObject.GetComponent<isEnemy>();
-            Debug.Log("Hit enemy " + myenemy.name);
-
-            myenemy.TakeDamage(damage);
-
-            Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                Vector3 collisionDirection = (other.transform.position - transform.position).normalized;
-                rb.AddForce(collisionDirection * 1000, ForceMode.Impulse);
-            }
-            else
-            {
-                Debug.Log("No rigidbody found on enemy");
-            }
-
-        }
-    }
 
     void Start()
     {

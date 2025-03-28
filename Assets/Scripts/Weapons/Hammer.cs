@@ -2,18 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public abstract class Weapon : MonoBehaviour
+public class Hammer : Weapon
 {
-    public abstract string WeaponName { get; }
-    public abstract float Damage { get; }
-    public abstract float Knockback { get; }
-    public abstract float AttackSpeed { get; }
-    public abstract void Attack();
+    [SerializeField]
+    public GameObject prefab;
+
+    public override string WeaponName => "Hammer";
+    public override float Damage => 50;
+    public override float Knockback => 1500;
+    public override float AttackSpeed => 0.8f;
+
+    public override void Attack()
+    {
+        // Implement attack logic here
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-
         if (other.gameObject.tag == "Enemy")
         {
             isEnemy myenemy = other.gameObject.GetComponent<isEnemy>();
@@ -31,7 +36,16 @@ public abstract class Weapon : MonoBehaviour
             {
                 Debug.Log("No rigidbody found on enemy");
             }
-
         }
+    }
+
+    void Start()
+    {
+        // Initialization logic here
+    }
+
+    void Update()
+    {
+        // Update logic here
     }
 }

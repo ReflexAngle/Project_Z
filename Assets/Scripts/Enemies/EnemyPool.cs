@@ -36,8 +36,13 @@ public class EnemyPool : MonoBehaviour
 
             for (int i = 0; i < poolSize; i++)
             {
-                GameObject enemy = Instantiate(enemyType.prefab,this.transform);
+                GameObject enemy = Instantiate(enemyType.prefab, this.transform);
                 enemy.SetActive(false);
+
+                // Attach EnemyTypeComponent and set the enemy type
+                EnemyTypeComponent typeComponent = enemy.AddComponent<EnemyTypeComponent>();
+                typeComponent.enemyType = enemyType.name;
+
                 enemies.Enqueue(enemy);
             }
 
@@ -58,6 +63,7 @@ public class EnemyPool : MonoBehaviour
         //If the pool is empty
         if (enemyPools[type].Count == 0)
         {
+            Debug.LogWarning("Pool for enemy type: " + type + " is empty. Creating new enemy");
             foreach (EnemyType enemyType in enemyTypes)
             {
                 if (enemyType.name == type)
@@ -80,8 +86,25 @@ public class EnemyPool : MonoBehaviour
     public void ReturnEnemy(GameObject enemy)
     {
         enemy.SetActive(false);
-        string type = enemy.name.Replace("(Clone)", "").Trim();
-        enemyPools[type].Enqueue(enemy);
+
+        // Get the enemy type from the EnemyTypeComponent
+        EnemyTypeComponent typeComponent = enemy.GetComponent<EnemyTypeComponent>();
+        if (typeComponent != null)
+        {
+            string type = typeComponent.enemyType;
+            if (enemyPools.ContainsKey(type))
+            {
+                enemyPools[type].Enqueue(enemy);
+            }
+            else
+            {
+                Debug.LogError("No pool for enemy type: " + type);
+            }
+        }
+        else
+        {
+            Debug.LogError("EnemyTypeComponent not found on enemy: " + enemy.name);
+        }
     }
 
 }

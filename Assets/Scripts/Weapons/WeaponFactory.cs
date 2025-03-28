@@ -11,11 +11,11 @@ public class WeaponFactory
         switch (weaponType)
         {
             case "Sword":
-                //return new Sword();
+                return new GameObject("BasicSword").AddComponent<BasicSword>();
             case "Hammer":
-                //return new Hammer();
-            case "Bow":
-                //return new Bow();
+                return new GameObject("Hammer").AddComponent<Hammer>();
+            case "Big Sword":
+                return new GameObject("BigSword").AddComponent<BigSword>();
             default:
                 Debug.LogError("Invalid weapon type!");
                 return null;
