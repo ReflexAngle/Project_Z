@@ -21,6 +21,9 @@ public abstract class isEnemy : MonoBehaviour
     public bool canMove = true;
 
     [SerializeField]
+    public bool canAttack = true;
+
+    [SerializeField]
     public float maxHealth;
 
     [SerializeField]
@@ -55,6 +58,7 @@ public abstract class isEnemy : MonoBehaviour
         {
             currentState.Exit(this);
         }
+        currentState = newState;
         currentState.Enter(this);
     }
 
@@ -107,7 +111,18 @@ public abstract class isEnemy : MonoBehaviour
     public void GetPlayerDistance()
     {
         currentPlayerDistance = Vector3.Distance(transform.position, player.position);
-        Debug.Log("Current distance to player: " + currentPlayerDistance);
+
+        if (currentPlayerDistance < aggroRange)
+        {
+            canMove = true;
+            Debug.Log("Enemy is in aggro range.");
+            ChangeState(new MovingToPlayer());
+        }
+        else
+        {
+            canMove = false;
+            //Debug.Log("Enemy is out of aggro range.");
+        }
     }
 
     public void TakeDamage(float damage)
@@ -125,10 +140,13 @@ public abstract class isEnemy : MonoBehaviour
             Debug.Log("enemy survives");
         }
     }
-    public void Attack(PlayerStats target)
+    public IEnumerator Attack(PlayerStats target)
     {
+        canAttack = false;
         Debug.Log("Enemy attacks player for " + attackDamage + " damage!");
         target.TakeDamage(attackDamage);
+        yield return new WaitForSeconds(attackSpeed);
+        canAttack = true;
     }
 
     public void Die()

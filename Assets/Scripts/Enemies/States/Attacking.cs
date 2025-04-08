@@ -16,15 +16,16 @@ public class Attacking : IEnemyState
     public void Execute(isEnemy enemy)
     {
         Debug.Log("Enemy is executing attack state.");
+
         // Check if the enemy is still in range of the player
-        if (Vector3.Distance(enemy.transform.position, enemy.player.transform.position) > enemy.attackRange)
+        if (enemy.currentPlayerDistance > enemy.attackRange)
         {
             // If not, switch to the idle state
             enemy.ChangeState(new MovingToPlayer());
 
 
         }
-        else
+        else if(enemy.canAttack == true)
         {
             // If the player is still in range, attack the player
             PlayerStats target = enemy.player.GetComponent<PlayerStats>();
