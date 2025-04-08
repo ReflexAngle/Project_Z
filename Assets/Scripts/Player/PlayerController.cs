@@ -96,7 +96,12 @@ public class PlayerController : MonoBehaviour
 
         playerControlls.Movement.Block.started += ctx => Blocking();
 
+        if (currentWeapon == null)
+        {
+            currentWeapon = weaponHolder.GetComponentInChildren<Weapon>();
+        }
 
+        
     }
     void OnEnable(){
         move = playerControlls.Movement.WASD;
