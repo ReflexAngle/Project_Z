@@ -5,32 +5,39 @@ using UnityEngine;
 
 public class RangedEnemy : isEnemy
 {
-
-    // Start is called before the first frame update
-    protected override void Start()
+    public new void Attack(PlayerStats target)
     {
-        base.Start();
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
+        if (target != null)
         {
-            Debug.Log("Enemy collided with Player Trigger!");
-            other.gameObject.GetComponent<PlayerStats>().TakeDamage(attackDamage);
+            target.TakeDamage(attackDamage);
+            Debug.Log("Enemy attacked the player for " + attackDamage + " damage!");
+
+        }
+        else
+        {
+            Debug.Log("Player not found!");
         }
     }
+    
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("Player"))
+    //    {
+    //        Debug.Log("Enemy collided with Player Trigger!");
+    //        other.gameObject.GetComponent<PlayerStats>().TakeDamage(attackDamage);
+    //    }
+    //}
 
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            Debug.Log("Enemy collided with Player RB!");
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.gameObject.CompareTag("Player"))
+    //    {
+    //        Debug.Log("Enemy collided with Player RB!");
 
-            collision.gameObject.GetComponent<PlayerStats>().TakeDamage(attackDamage);
-        }
-    }
+    //        collision.gameObject.GetComponent<PlayerStats>().TakeDamage(attackDamage);
+    //    }
+    //}
 
 
 }

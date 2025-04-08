@@ -3,29 +3,19 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class TestEnemy : isEnemy
+public class MeleeEnemy : isEnemy
 {
-
-    // Start is called before the first frame update
-
-
-    private void OnTriggerEnter(Collider other)
+    public new void Attack(PlayerStats target)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (target != null)
         {
-            Debug.Log("Enemy collided with Player Trigger!");
-            other.gameObject.GetComponent<PlayerStats>().TakeDamage(attackDamage);
+            target.TakeDamage(attackDamage);
+            Debug.Log("Enemy attacked the player for " + attackDamage + " damage!");
+
         }
-    }
-
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
+        else
         {
-            Debug.Log("Enemy collided with Player RB!");
-
-            collision.gameObject.GetComponent<PlayerStats>().TakeDamage(attackDamage);
+            Debug.Log("Player not found!");
         }
     }
 

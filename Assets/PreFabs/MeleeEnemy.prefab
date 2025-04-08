@@ -77,9 +77,12 @@ MonoBehaviour:
   currentHealth: 30
   attackDamage: 10
   attackSpeed: 1
+  attackRange: 3
   moveSpeed: 3
+  aggroRange: 50
+  currentPlayerDistance: 0
   enemyTag: Enemy
-  currentState: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!54 &4692647223135527472
 Rigidbody:
   m_ObjectHideFlags: 0

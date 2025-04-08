@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,29 +11,57 @@ public abstract class isEnemy : MonoBehaviour
     [SerializeField]
     public NavMeshAgent agent;
 
+    [SerializeField]
     public Transform player;
 
+    [SerializeField]
+    public IEnemyState currentState = new Idle();
+
+    [SerializeField]
     public bool canMove = true;
 
+    [SerializeField]
     public float maxHealth;
 
+    [SerializeField]
     public float currentHealth;
 
+    [SerializeField]
     public float attackDamage;
 
+    [SerializeField]
     public float attackSpeed;
 
+    [SerializeField]
+    public float attackRange;
+
+    [SerializeField]
     public float moveSpeed;
 
+    [SerializeField]
+    public float aggroRange;
+
+    public float currentPlayerDistance;
+
+    [SerializeField]
     public string enemyTag = "Enemy";
 
-    public StateMachineBehaviour currentState;
+    [SerializeField]
+    public Animator animator;
+
+    public void ChangeState(IEnemyState newState)
+    {
+        if (currentState != null)
+        {
+            currentState.Exit(this);
+        }
+        currentState.Enter(this);
+    }
 
     private void Awake()
     {
-        this.AddComponent<NavMeshAgent>();
-        agent = GetComponent<NavMeshAgent>();
         player = GameObject.Find("Player").transform;
+        currentState = new Idle();
     }
 
     protected virtual void Start()
@@ -40,10 +69,17 @@ public abstract class isEnemy : MonoBehaviour
         currentHealth = maxHealth;
         agent.speed = moveSpeed;
 
+        ChangeState(new Idle());
+
     }
+
 
     private void Update()
     {
+        if (agent == null)
+        {
+            agent = GetComponent<NavMeshAgent>();
+        }
 
         if (player == null)
         {
@@ -53,24 +89,25 @@ public abstract class isEnemy : MonoBehaviour
         {
             tag = enemyTag;
         }
-        else if (canMove == true)
+        if (currentState == null)
         {
-
-            player.transform.position = new Vector3(player.position.x, player.position.y, player.position.z);
-            agent.SetDestination(player.position);
-
+            ChangeState(new Idle());
+        }
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
         }
 
+        GetPlayerDistance();
+
+        currentState.Execute(this);
+        
     }
 
-    public void Attack(PlayerStats target)
+    public void GetPlayerDistance()
     {
-        if (target is null)
-        {
-            throw new ArgumentNullException(nameof(target));
-        }
-
-        target.TakeDamage(attackDamage);
+        currentPlayerDistance = Vector3.Distance(transform.position, player.position);
+        Debug.Log("Current distance to player: " + currentPlayerDistance);
     }
 
     public void TakeDamage(float damage)
@@ -88,11 +125,38 @@ public abstract class isEnemy : MonoBehaviour
             Debug.Log("enemy survives");
         }
     }
+    public void Attack(PlayerStats target)
+    {
+        Debug.Log("Enemy attacks player for " + attackDamage + " damage!");
+        target.TakeDamage(attackDamage);
+    }
 
     public void Die()
     {
         GetComponentInParent<EnemyPool>().ReturnEnemy(gameObject);
         Debug.Log("Enemy died!");
+    }
+
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player") & currentState == new Attacking())
+        {
+            Debug.Log("Enemy collided with Player Trigger!");
+            other.gameObject.GetComponent<PlayerStats>().TakeDamage(attackDamage);
+        }
+    }
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Enemy collided with Player RB!");
+
+            collision.gameObject.GetComponent<PlayerStats>().TakeDamage(attackDamage);
+        }
     }
 
 

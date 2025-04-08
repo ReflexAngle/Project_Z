@@ -88,10 +88,15 @@ public class PlayerController : MonoBehaviour
 
         playerControlls.Movement.Jump.started += ctx => StartJumping();
         playerControlls.Movement.Jump.canceled += ctx => EndJump();
+        playerControlls.Movement.Jump.performed += ctx => JumpBuffer(); // this is to make sure the player can jump again
 
-        playerControlls.Movement.Attack.performed += ctx => Attacking();
+
+        playerControlls.Movement.Attack.performed += ctx => StartCoroutine(Attacking());
+        playerControlls.Movement.Attack.canceled += ctx => canAttack = true; // this is to make sure the player can attack again
 
         playerControlls.Movement.Block.started += ctx => Blocking();
+
+
     }
     void OnEnable(){
         move = playerControlls.Movement.WASD;
@@ -173,11 +178,14 @@ public class PlayerController : MonoBehaviour
     }
     // use a ray cast with a distance of 5 away from the player
     // if the raycast hits an object with an enemy tag then it deals damage to them else it just misses
-    private void Attacking(){
+    private IEnumerator Attacking(){
 
         if (CanAttack && CanMove && CanBlock)
         {
             canAttack = false;
+            CapsuleCollider collider = currentWeapon.gameObject.GetComponent<CapsuleCollider>();
+            collider.enabled = true;
+
 
             //currentWeapon.Attack();
             /*
@@ -193,15 +201,16 @@ public class PlayerController : MonoBehaviour
                 degrees = -80f;
             }
             */
-            if (swordUp)
-            {
-                RotateObject(weaponHolder, 70f);
-            }
-            else
-            {
-                RotateObject(weaponHolder, -70f);
-            }
-            swordUp =! swordUp;
+
+
+            RotateObject(weaponHolder, 90f);
+
+            yield return new WaitForSeconds(1/currentWeapon.AttackSpeed);
+
+            RotateObject(weaponHolder, -90f);
+            
+            swordUp = ! swordUp;
+            collider.enabled = false;
             canAttack = true;
         }
 
