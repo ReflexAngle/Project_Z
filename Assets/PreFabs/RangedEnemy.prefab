@@ -73,13 +73,15 @@ MonoBehaviour:
   agent: {fileID: 7447816015802455024}
   player: {fileID: 0}
   canMove: 1
+  canAttack: 1
   maxHealth: 10
   currentHealth: 10
   attackDamage: 40
   attackSpeed: 0
-  attackRange: 6
+  attackRange: 10
   moveSpeed: 2
-  aggroRange: 10
+  aggroRange: 20
+  currentPlayerDistance: 0
   enemyTag: Enemy
   animator: {fileID: 0}
 --- !u!136 &1323835557046542746

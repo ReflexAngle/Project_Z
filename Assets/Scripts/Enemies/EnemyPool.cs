@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class EnemyPool : MonoBehaviour
+public class EnemyPool : Subject
 {
     public EnemyPool Instance { get; private set; }
 
@@ -80,12 +80,17 @@ public class EnemyPool : MonoBehaviour
         GameObject enemy = enemyPools[type].Dequeue();
         enemy.SetActive(true);
         enemy.transform.position = spawnPosition;
+
+        Instance.Notify("EnemySpawned");
+
         return enemy;
     }
 
     public void ReturnEnemy(GameObject enemy)
     {
         enemy.SetActive(false);
+
+        Instance.Notify("EnemyDefeated");
 
         // Get the enemy type from the EnemyTypeComponent
         EnemyTypeComponent typeComponent = enemy.GetComponent<EnemyTypeComponent>();

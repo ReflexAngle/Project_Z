@@ -4,23 +4,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Subject : MonoBehaviour
+public abstract class Subject : MonoBehaviour
 {
-    private List<Observer> observers = new List<Observer>();
+    private List<IObserver> observers = new List<IObserver>();
 
-    public void Attach(Observer observer)
+    public void Attach(IObserver observer)
     {
         observers.Add(observer);
     }
 
-    public void Detach(Observer observer)
+    public void Detach(IObserver observer)
     {
         observers.Remove(observer);
     }
 
     protected void Notify(string action)
     {
-        foreach (Observer observer in observers)
+        foreach (IObserver observer in observers)
         {
             observer.OnNotify(action);
         }

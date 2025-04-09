@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Observer : MonoBehaviour
+public abstract class IObserver : MonoBehaviour
 {
-    public void OnNotify(string action)
+    public virtual void OnNotify(string action)
     {
-        // Handle the notification from the subject
-        Debug.Log("Observer notified of action: " + action);
+        Debug.Log("Observer notified with action: " + action);
     }
 }
