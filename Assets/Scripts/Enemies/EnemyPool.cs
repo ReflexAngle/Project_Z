@@ -112,4 +112,17 @@ public class EnemyPool : Subject
         }
     }
 
+    public void ReturnAllEnemies()
+    {
+        foreach (var enemyPool in enemyPools)
+        {
+            while (enemyPool.Value.Count > 0)
+            {
+                GameObject enemy = enemyPool.Value.Dequeue();
+                enemy.SetActive(false);
+            }
+        }
+        Debug.Log("All enemies returned to pool");
+    }
+
 }

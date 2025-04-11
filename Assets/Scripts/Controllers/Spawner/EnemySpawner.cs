@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    // Start is called before the first frame update
+
+
     [SerializeField]
     public EnemyPool enemyPool;
 
@@ -25,10 +28,10 @@ public class EnemySpawner : MonoBehaviour
         if (enemyPool == null)
         {
             Debug.LogError("Enemy Pool not set in EnemySpawner");
+            enemyPool = FindObjectOfType<EnemyPool>();
         }
 
 
-        StartWave(currentWaveEnemyIndex);
 
     }
 
@@ -38,29 +41,19 @@ public class EnemySpawner : MonoBehaviour
         
     }
 
-    public void StartWave(int waveIndex)
+    public void StartWave(WaveData wave)
     {
 
-        if (waveIndex >= waves.Count)
-        {
-            Debug.LogError("Wave index out of bounds");
-            return;
-        }
-        if (waveIndex < 0)
-        {
-            Debug.LogError("Wave index out of bounds");
-            return;
-        }
-        if (waves[waveIndex] == null)
-        {
-            Debug.LogError("No Wave for index "+waveIndex+" found");
-            return;
-        }
+        
 
-        Debug.Log("Starting wave " + waveIndex);
+        Debug.Log("Starting wave " + wave.name);
 
-        WaveData wave = waves[waveIndex];
         spawnStrategies[wave.spawnStrategyIndex].SpawnWave(wave, enemyPool);
-        waveIndex++;
+
+    }
+
+    public void Reset()
+    {
+        enemyPool.ReturnAllEnemies();
     }
 }

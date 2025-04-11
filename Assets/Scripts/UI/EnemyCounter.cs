@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class EnemyCounter : IObserver
+public class EnemyCounter : Subject, IObserver
 {
     [SerializeField]
     private EnemyPool enemyPool;
@@ -16,12 +16,13 @@ public class EnemyCounter : IObserver
     private int enemySpawnCount = 0;
     [SerializeField]
     private int defeatedCount = 0;
-    [SerializeField]
-    private int waveCount = 0;
+
     [SerializeField]
     private GameObject enemyCountText;
     [SerializeField]
     private GameObject defeatCountText;
+    [SerializeField]
+    private bool isFighting = false;
 
 
     private void Start()
@@ -34,27 +35,29 @@ public class EnemyCounter : IObserver
 
     }
 
-    public override void OnNotify(string action)
+    public void OnNotify(string action)
     {
         // Handle the notification from the subject  
         if (action == "EnemySpawned")
         {
             Debug.Log("An enemy has spawned!");
             enemySpawnCount++;
+            if (isFighting == false)
+            {
+                isFighting = true;
+                Notify("WaveStarted");
+            }
         }
         else if (action == "EnemyDefeated")
         {
             defeatedCount++;
             Debug.Log("An enemy has been defeated! Number " + defeatedCount);
-        }
-        else if (action == "WaveStarted")
-        {
-            Debug.Log("A new wave has started!");
-            waveCount++;
-        }
-        else if (action == "WaveEnded")
-        {
-            Debug.Log("The wave has ended!");
+
+            if (defeatedCount >= enemySpawnCount)
+            {
+                Debug.Log("All enemies have been defeated!");
+                Notify("WaveEnded");
+            }
         }
         else
         {
@@ -65,9 +68,18 @@ public class EnemyCounter : IObserver
     }
     private void Update()
     {
-            enemyCurrentCount = enemySpawnCount - defeatedCount;
-            enemyCountText.GetComponent<TextMeshProUGUI>().text = "Enemies: " + enemyCurrentCount;
-            defeatCountText.GetComponent<TextMeshProUGUI>().text = "Defeated: " + defeatedCount;
+        enemyCurrentCount = enemySpawnCount - defeatedCount;
+        enemyCountText.GetComponent<TextMeshProUGUI>().text = "Enemies: " + enemyCurrentCount;
+        defeatCountText.GetComponent<TextMeshProUGUI>().text = "Defeated: " + defeatedCount;
     }
 
+    public void Reset()
+    {
+        enemyCurrentCount = 0;
+        enemySpawnCount = 0;
+        defeatedCount = 0;
+        isFighting = false;
+        enemyCountText.GetComponent<TextMeshProUGUI>().text = "Enemies: " + enemyCurrentCount;
+        defeatCountText.GetComponent<TextMeshProUGUI>().text = "Defeated: " + defeatedCount;
+    }
 }
