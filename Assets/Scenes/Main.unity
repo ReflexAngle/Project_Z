@@ -234,6 +234,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d150f6e4e74a2224383812e5e354102c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyCounter: {fileID: 0}
+  enemySpawner: {fileID: 0}
+  Waves: []
+  curEventIndex: 0
+  shopText: {fileID: 0}
 --- !u!1 &360154890
 GameObject:
   m_ObjectHideFlags: 0
@@ -701,9 +706,9 @@ MonoBehaviour:
   enemyCurrentCount: 0
   enemySpawnCount: 0
   defeatedCount: 0
-  waveCount: 0
   enemyCountText: {fileID: 2073449941}
   defeatCountText: {fileID: 1653754344}
+  isFighting: 0
 --- !u!1 &1500012351
 GameObject:
   m_ObjectHideFlags: 0
@@ -1022,7 +1027,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPool: {fileID: 1261862020}
   waves:
-  - {fileID: 11400000, guid: b4a28e5808a65004193547006e778785, type: 2}
+  - {fileID: 11400000, guid: f587704fd1ec6404fb1a9ef68390371f, type: 2}
   currentWaveEnemyIndex: 0
 --- !u!4 &1742571751
 Transform:

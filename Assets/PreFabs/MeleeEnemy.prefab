@@ -73,7 +73,8 @@ MonoBehaviour:
   agent: {fileID: 1969835137208169849}
   player: {fileID: 0}
   canMove: 1
-  maxHealth: 30
+  canAttack: 1
+  maxHealth: 50
   currentHealth: 30
   attackDamage: 10
   attackSpeed: 1

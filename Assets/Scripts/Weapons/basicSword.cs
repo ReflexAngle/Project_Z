@@ -13,7 +13,7 @@ public class BasicSword : Weapon
     [SerializeField]
     public override float Damage => 30;
     [SerializeField]
-    public override float Knockback => 1000;
+    public override float Knockback => 200;
     [SerializeField]
     public override float AttackSpeed => 3;
 

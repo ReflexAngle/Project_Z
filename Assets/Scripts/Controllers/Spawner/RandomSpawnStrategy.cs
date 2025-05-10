@@ -19,12 +19,11 @@ public class RandomSpawnStrategy : ISpawnStrategy
         }
     }
 
-    public async void Spawn(string enemyType, Vector3 spawnpoint, EnemyPool pool, int count)
+    public override async void Spawn(string enemyType, Vector3 spawnpoint, EnemyPool pool, int count)
     {
         base.Spawn(enemyType, spawnpoint, pool, count);
 
         // Generate a random position within a circle
-
 
         for (int i = 0; i < count; i++)
         {

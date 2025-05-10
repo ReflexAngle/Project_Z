@@ -33,12 +33,6 @@ public class Wave : MonoBehaviour
 
     }
 
-    public void StartWave(EnemyPool pool)
-    {
-        //spawnStrategy.SpawnWave(this, pool);
-        
-    }
-
     public Wave(string name, List<isEnemy> enemies, List<Vector3> spawnpoints, ISpawnStrategy spawnStrategy)
     {
         this.name = name;

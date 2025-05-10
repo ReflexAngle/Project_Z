@@ -7,30 +7,31 @@ public class GameController : MonoBehaviour, IObserver
     [SerializeField]
     EnemyCounter enemyCounter;
     [SerializeField]
-    EnemySpawner enemySpawner;
+    public EnemySpawner enemySpawner;
     [SerializeField]
-    public List<IEvent> Events;
+    List<IEvent> Events = new List<IEvent>();
     [SerializeField]
-    List<WaveData> Waves;
+    public List<WaveData> Waves;
     [SerializeField]
     int curEventIndex = 0;
     [SerializeField]
     GameObject shopText;
+    [SerializeField]
+    EventCreator eventCreator;
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        //Events.Add(new StartWave());
 
         //Events.Add(new StartWave() { enemySpawner = enemySpawner, waveData = Waves[1] });
         //Events.Add(new StartShop() { shopText = shopText });
 
-        //if (enemyCounter == null)
-        //{
-        //    enemyCounter = FindObjectOfType<EnemyCounter>();
-        //}
+        if (enemyCounter == null)
+        {
+            enemyCounter = FindObjectOfType<EnemyCounter>();
+        }
 
         enemyCounter.Attach(this);
 
@@ -38,19 +39,24 @@ public class GameController : MonoBehaviour, IObserver
         {
             enemySpawner = FindObjectOfType<EnemySpawner>();
         }
-        //if (Events == null || Events.Count == 0)
-        //{
-        //    Debug.LogError("No events set in GameController");
-        //}
-        //if (curEventIndex < 0 || curEventIndex >= Events.Count)
-        //{
-        //    Debug.LogError("Current event index is out of range");
-        //}
 
-        //curEventIndex = 0;
-        //Events[curEventIndex].StartEvent();
+        if (eventCreator == null)
+        {
+            Debug.LogError("EventCreator not set in GameController");
+            eventCreator = FindObjectOfType<EventCreator>();
+        }
 
-        enemySpawner.StartWave(Waves[0]);
+        eventCreator.addEvents();
+
+        if (Events == null || Events.Count == 0)
+        {
+            Debug.LogError("No events set in GameController");
+        }
+
+        curEventIndex = 0;
+        Events[curEventIndex].StartEvent();
+
+        //enemySpawner.StartWave(Waves[0]);
 
     }
 
@@ -58,6 +64,11 @@ public class GameController : MonoBehaviour, IObserver
     void Update()
     {
         
+    }
+
+    public void AddEvent(IEvent newEvent)
+    {
+        Events.Add(newEvent);
     }
 
     public void OnNotify(string action)
@@ -87,7 +98,6 @@ public class GameController : MonoBehaviour, IObserver
             Events[curEventIndex].StartEvent();
         }
 
-        // Handle the notification from the subject  
         if (action == "WaveStarted")
         {
             Debug.Log("A new wave has started!");
@@ -95,7 +105,6 @@ public class GameController : MonoBehaviour, IObserver
         else if (action == "WaveEnded")
         {
             Debug.Log("The wave has ended!");
-            enemySpawner.currentWaveEnemyIndex++;
             enemyCounter.Reset();
             OnNotify("NextEvent");
         }

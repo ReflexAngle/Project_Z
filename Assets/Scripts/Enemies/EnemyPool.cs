@@ -71,7 +71,7 @@ public class EnemyPool : Subject
                     GameObject extraEnemy = Instantiate(enemyType.prefab, this.transform);
                     extraEnemy.SetActive(false);
                     enemyPools[type].Enqueue(extraEnemy);
-                    break;
+                    
                 }
             }
 
@@ -108,7 +108,20 @@ public class EnemyPool : Subject
         }
         else
         {
-            Debug.LogError("EnemyTypeComponent not found on enemy: " + enemy.name);
+            Debug.LogError($"EnemyTypeComponent not found on enemy: {enemy.name}. Adding it now.");
+
+            // Attempt to re-add the component
+            EnemyTypeComponent newTypeComponent = enemy.AddComponent<EnemyTypeComponent>();
+            newTypeComponent.enemyType = enemy.name.Replace("(Clone)", "").Trim();
+
+            if (enemyPools.ContainsKey(newTypeComponent.enemyType))
+            {
+                enemyPools[newTypeComponent.enemyType].Enqueue(enemy);
+            }
+            else
+            {
+                Debug.LogError("No pool for enemy type: " + newTypeComponent.enemyType);
+            }
         }
     }
 

@@ -7,8 +7,9 @@ using UnityEngine;
 public class EnemyCounter : Subject, IObserver
 {
     [SerializeField]
-    private EnemyPool enemyPool;
+    private EnemySpawner enemySpawner;
     [SerializeField]
+    private EnemyPool enemyPool;
     private EnemyPool enemyPoolInstance;
     [SerializeField]
     private int enemyCurrentCount = 0;
@@ -33,6 +34,8 @@ public class EnemyCounter : Subject, IObserver
 
         enemyPoolInstance.Attach(this);
 
+        enemySpawnCount = enemySpawner.GetTotalEnemiesInCurrentWave();
+
     }
 
     public void OnNotify(string action)
@@ -41,7 +44,7 @@ public class EnemyCounter : Subject, IObserver
         if (action == "EnemySpawned")
         {
             Debug.Log("An enemy has spawned!");
-            enemySpawnCount++;
+
             if (isFighting == false)
             {
                 isFighting = true;
@@ -57,6 +60,7 @@ public class EnemyCounter : Subject, IObserver
             {
                 Debug.Log("All enemies have been defeated!");
                 Notify("WaveEnded");
+                Reset();
             }
         }
         else

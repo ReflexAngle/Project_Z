@@ -19,7 +19,6 @@ public class StartWave : IEvent
     }
     public void EndEvent()
     {
-        // Implement any cleanup or end logic here if needed
         Debug.Log("Ending wave " + waveData.name);
         enemySpawner.Reset();
     }

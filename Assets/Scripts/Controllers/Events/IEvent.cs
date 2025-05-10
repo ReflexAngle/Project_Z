@@ -4,15 +4,9 @@ using UnityEngine;
 
 public interface IEvent
 {
-
     public void StartEvent()
-    {
-        
-    }
-
+    {   }
     public void EndEvent()
-    {
-
-    }
+    {   }
 
 }

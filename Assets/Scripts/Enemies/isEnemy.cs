@@ -159,7 +159,7 @@ public abstract class isEnemy : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player") & currentState == new Attacking())
+        if (other.gameObject.CompareTag("Player"))
         {
             Debug.Log("Enemy collided with Player Trigger!");
             other.gameObject.GetComponent<PlayerStats>().TakeDamage(attackDamage);
