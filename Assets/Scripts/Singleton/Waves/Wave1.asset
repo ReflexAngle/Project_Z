@@ -15,6 +15,8 @@ MonoBehaviour:
   waveName: 1
   enemies:
   - enemyType: Melee
-    count: 3
+    count: 15
+  - enemyType: Ranged
+    count: 10
   spawnStrategyIndex: 1
-  spawnpoint: {x: 5, y: 0, z: 0}
+  spawnpoint: {x: -9, y: 0, z: 0}

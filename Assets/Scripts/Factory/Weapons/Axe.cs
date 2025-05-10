@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hammer : Weapon
+public class Axe : Weapon
 {
     [SerializeField]
     public GameObject prefab;
 
-    public override string WeaponName => "Hammer";
+    public override string WeaponName => "Axe";
     public override float Damage => 50;
     public override float Knockback => 1500;
     public override float AttackSpeed => 0.8f;
